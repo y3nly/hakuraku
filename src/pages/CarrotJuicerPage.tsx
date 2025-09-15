@@ -179,7 +179,7 @@ export default class CarrotJuicerPage extends React.Component<{}, CarrotJuicerPa
                             </ListGroupItem>)}
                     </ListGroup>
                 </Col>
-                <Col xs="8" style={{maxHeight: '100%', overflowY: 'auto'}}>
+                <Col xs="10" style={{maxHeight: '100%', overflowY: 'auto'}}>
                     {this.raceDataPresenter()}
                     <JsonViewer value={this.state.currentFileContent} defaultInspectDepth={2}/>
                 </Col>
