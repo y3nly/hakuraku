@@ -58,9 +58,22 @@ export default class CarrotJuicerPage extends React.Component<{}, CarrotJuicerPa
         this.setState({currentFile: file});
 
         file.arrayBuffer().then((content: ArrayBuffer) => {
-            const bytesToUse = file.name.endsWith("Q.msgpack") ? this.skipRequestHeader(content) : content;
+            const bytesToUse = file.name.endsWith("Q.msgpack")
+                ? this.skipRequestHeader(content)
+                : content;
+
             try {
-                this.setState({currentFileContent: msgpack.deserialize(bytesToUse)});
+                const decoder = new TextDecoder("utf-8");
+                const text = decoder.decode(new Uint8Array(bytesToUse));
+
+                let parsed: any;
+                try {
+                    parsed = JSON.parse(text);
+                } catch {
+                    parsed = text;
+                }
+
+                this.setState({ currentFileContent: parsed });
             } catch (e) {
                 console.log("Failed to parse file!", file, e);
             }
