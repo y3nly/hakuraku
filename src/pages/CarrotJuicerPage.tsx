@@ -1,7 +1,6 @@
 // @ts-ignore
 import struct from "@aksel/structjs";
 import {JsonViewer} from "@textea/json-viewer";
-import msgpack from "@ygoe/msgpack";
 import React from "react";
 import {Col, Form, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import FilesSelector from "../components/FilesSelector";
