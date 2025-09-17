@@ -168,7 +168,7 @@ export default class CarrotJuicerPage extends React.Component<{}, CarrotJuicerPa
                                    instructions="Select a packet containing a single mode race, a group of team stadium races, a room race (Taurus cup etc.) or a room match to inspect and visualize them here."/>
                 </Col>
             </Row>
-            <Row style={{height: '90vh'}}>
+            <Row>
                 <Col style={{maxHeight: '100%', overflowY: 'auto'}}>
                     <ListGroup>
                         {this.state.selectedFiles.map(file =>
