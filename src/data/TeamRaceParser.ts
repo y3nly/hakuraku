@@ -41,7 +41,12 @@ export function parse(file: File): Promise<TeamRaceGroupData | undefined> {
     return file.arrayBuffer().then(content => {
         let deserialized: any;
         try {
-            deserialized = msgpack.deserialize(content);
+            if (file.name.endsWith(".json")) {
+                const text = new TextDecoder("utf-8").decode(content);
+                deserialized = JSON.parse(text);
+            } else {
+                deserialized = msgpack.deserialize(content);
+            }
         } catch (e) {
             console.log("Failed to parse file!", file, e);
             return undefined;
