@@ -1,6 +1,7 @@
 // @ts-ignore
 import struct from "@aksel/structjs";
 import {JsonViewer} from "@textea/json-viewer";
+import msgpack from "@ygoe/msgpack";
 import React from "react";
 import {Col, Form, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import FilesSelector from "../components/FilesSelector";
@@ -57,21 +58,19 @@ export default class CarrotJuicerPage extends React.Component<{}, CarrotJuicerPa
         this.setState({currentFile: file});
 
         file.arrayBuffer().then((content: ArrayBuffer) => {
-            const bytesToUse = file.name.endsWith("Q.msgpack")
-                ? this.skipRequestHeader(content)
-                : content;
-
             try {
-                const decoder = new TextDecoder("utf-8");
-                const text = decoder.decode(new Uint8Array(bytesToUse));
-
                 let parsed: any;
-                try {
+    
+                if (file.name.endsWith(".json")) {
+                    const text = new TextDecoder("utf-8").decode(content);
                     parsed = JSON.parse(text);
-                } catch {
-                    parsed = text;
+                } else if (file.name.endsWith("Q.msgpack")) {
+                    const bytesToUse = this.skipRequestHeader(content);
+                    parsed = msgpack.deserialize(bytesToUse);
+                } else {
+                    parsed = msgpack.deserialize(content);
                 }
-
+    
                 this.setState({ currentFileContent: parsed });
             } catch (e) {
                 console.log("Failed to parse file!", file, e);
